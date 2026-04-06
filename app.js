@@ -2,18 +2,22 @@ import express from "express";
 import cors from "cors";
 import { errorHandler, notFound } from "./Middleware/error.middleware.js";
 import cookieParser from "cookie-parser";
+import authRoute from "./routes/auth.route.js";
 
 const app = express();
+app.use(express);
+
+//CORS
+app.use(cors());
 
 // JSON BODY
 express.json();
-app.use(express);
 
 //cookie-parser
 app.use(cookieParser());
 
-//CORS
-app.use(cors());
+//ROUTES
+app.use("/api/v1/auth", authRoute);
 
 //Error middleware
 app.use(notFound);
