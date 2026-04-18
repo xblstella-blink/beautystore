@@ -6,7 +6,7 @@ import generateToken from "../util/generateToken.js";
 //route POST /api/v1/auth/register
 //@access public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { fullName, email, password } = req.body;
   const userExists = await User.findOne({ email });
 
   if (userExists) {
@@ -15,7 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name,
+    fullName,
     email,
     password,
   });
@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
     generateToken(res, user._id);
     res.status(201).json({
       _id: user._id,
-      name: user.name,
+      name: user.fullName,
       email: user.email,
     });
   } else {
@@ -45,7 +45,7 @@ const loginUser = asyncHandler(async (req, res) => {
     generateToken(res, user._id);
     res.status(200).json({
       _id: user._id,
-      name: user.name,
+      name: user.fullName,
       email: user.email,
     });
   } else {
@@ -64,7 +64,7 @@ const logOut = asyncHandler(async (req, res) => {
     expires: new Date(0),
   });
 
-  res.status(200).json({ message: "Logout seccessfully" });
+  res.status(200).json({ message: "Logout successfully" });
 });
 
 export { logOut, loginUser, registerUser };
